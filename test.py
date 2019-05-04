@@ -31,5 +31,12 @@ class MyTest(unittest.TestCase):
       self.assertIsInstance(item, tuple)
       self.assertEqual(len(item), 3)
 
+  def test_valid_rgb_tuple(self):
+    self.assertTrue(valid_rgb_tuple('(0,255,15)'))
+    self.assertFalse(valid_rgb_tuple('0,255,15'))
+    self.assertFalse(valid_rgb_tuple('(0,256,15)'))
+    self.assertFalse(valid_rgb_tuple('(0,255,15,4)'))
+
+
 if __name__ == '__main__':
   unittest.main()
