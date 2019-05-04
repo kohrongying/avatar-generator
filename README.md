@@ -12,18 +12,23 @@ Compatible for python3
 
 Additional arguments:
 ```
-python3 run.py -w 100 -p 10 -c 3 -cc '(255,0,0)' '(0,255,0)'
+python3 run.py -w 100 -p 10 
+               -c 3 -cc '(255,0,0)' '(0,255,0)'
+               -o avatars
+               -n 10
 ```
-```
-optional arguments:
--h, --help                show help 
--c, --num_colors          number of colors in avatar 
-                          to generate (excluding 
-                          corporate color if any)
--w,  --width              width of avatar to generate
--p, --num_pixels          number of pixels of avatar
--cc, --corporate_colors   color(s) to be included (in rgb tuple)
-```
+
+### Optional arguments
+
+| Arugment        | Default           | Description  |
+| ------------------------ |:-------------:| -----|
+| -h, --help    |  | show help  |
+| -c, --num_colors | 2      | number of colors in avatar to generate (excluding corporate color if any) |
+| -w,  --width | 140 | width of avatar to generate |
+|-p, --num_pixels | 5 | number of pixels of avatar|
+|-cc, --corporate_colors | None |   color(s) to be included (in rgb tuple)
+|-n, --number |1| number of avatars to generate
+|-o, --output_dest | images| output directory where avatars
 
 ## Run Test
 ```

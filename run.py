@@ -4,6 +4,7 @@ import math
 import time
 import argparse
 import sys
+import os 
 
 def complement(i, steps):
   i_prime = steps - i - 1
@@ -34,38 +35,48 @@ def valid_rgb_tuple(s):
         return True 
   return False
 
+def create_output_dest_if_not_found(out):
+  path = os.path.join(os.getcwd(), out)
+  if not os.path.exists(path) and not os.path.isdir(path):
+    os.makedirs(path)
+
 def main(params):
 
   seed = math.floor(time.time())
   random.seed(seed)
   width = params['width']
   height = width
-  im = Image.new("RGB", (width, height))
-  pix = im.load()
   steps = params['steps']
   step_size = int(width / steps)
   num_colors = params['num_colors']
-  colors = generate_colors_arr(num_colors)
+  num_to_generate = params['num_to_generate']
 
-  if params['corporate_colors']:
-    for c in params['corporate_colors']:
-      cc = c[1:-1].split(',')
-      colors.append((int(cc[0]), int(c[1]), int(cc[2])))
+  for i in range(num_to_generate):
+    im = Image.new("RGB", (width, height))
+    pix = im.load()
+    colors = generate_colors_arr(num_colors)
+    output_dest = params['output_dest']
+    create_output_dest_if_not_found(output_dest)
 
-  for b in range(steps):
-    current_y = b * step_size
-    color_arr = generate_row_colors(num_colors, steps, colors)
-    for a in range(steps):
-      current_x = a * step_size
-      
-      color = color_arr[a]
-      for step_x in range(step_size):
-        dx = current_x + step_x
-        for step_y in range(step_size):
-          dy = current_y + step_y
-          pix[dx, dy] = color
+    if params['corporate_colors']:
+      for c in params['corporate_colors']:
+        cc = c[1:-1].split(',')
+        colors.append((int(cc[0]), int(c[1]), int(cc[2])))
 
-  im.save("img_{}.png".format(seed), "PNG")
+    for b in range(steps):
+      current_y = b * step_size
+      color_arr = generate_row_colors(num_colors, steps, colors)
+      for a in range(steps):
+        current_x = a * step_size
+        
+        color = color_arr[a]
+        for step_x in range(step_size):
+          dx = current_x + step_x
+          for step_y in range(step_size):
+            dy = current_y + step_y
+            pix[dx, dy] = color
+
+    im.save("{}/img_{}_{}.png".format(output_dest, seed, i+1), "PNG")
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
@@ -77,6 +88,10 @@ if __name__ == "__main__":
   parser.add_argument('-p','--num_pixels', dest='steps', type=int, default=5, help='number of pixels of avatar')
 
   parser.add_argument('-cc','--corporate_color', dest='corporate_colors', nargs='+', default=None, help='corporate color to be used')
+
+  parser.add_argument('-n','--number', dest='num_to_generate', type=int, default=1, help='number of avatars to generate')
+
+  parser.add_argument('-o','--output_dest', dest='output_dest', default='images', help='output directory where avatars will be created')
 
   args = parser.parse_args()
   params = vars(args)
