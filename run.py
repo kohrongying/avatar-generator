@@ -2,6 +2,7 @@ from PIL import Image
 import random 
 import math
 import time
+import argparse
 
 def complement(i, steps):
   i_prime = steps - i - 1
@@ -26,28 +27,45 @@ def generate_row_colors(num_colors, steps, colors):
     steps_arr[complement(i, steps)] = color 
   return steps_arr
 
-seed = math.floor(time.time())
-random.seed(seed)
-width = 140
-height = width
-im = Image.new("RGB", (width, height))
-pix = im.load()
-steps = 5
-step_size = int(width / steps)
-num_colors = 2
-colors = generate_colors_arr(num_colors)
 
-for b in range(steps):
-  current_y = b * step_size
-  color_arr = generate_row_colors(num_colors, steps, colors)
-  for a in range(steps):
-    current_x = a * step_size
-    
-    color = color_arr[a]
-    for step_x in range(step_size):
-      dx = current_x + step_x
-      for step_y in range(step_size):
-        dy = current_y + step_y
-        pix[dx, dy] = color
+def main(params):
 
-im.save("img_{}.png".format(seed), "PNG")
+  seed = math.floor(time.time())
+  random.seed(seed)
+  width = params['width']
+  height = width
+  im = Image.new("RGB", (width, height))
+  pix = im.load()
+  steps = params['steps']
+  step_size = int(width / steps)
+  num_colors = params['num_colors']
+  colors = generate_colors_arr(num_colors)
+
+  for b in range(steps):
+    current_y = b * step_size
+    color_arr = generate_row_colors(num_colors, steps, colors)
+    for a in range(steps):
+      current_x = a * step_size
+      
+      color = color_arr[a]
+      for step_x in range(step_size):
+        dx = current_x + step_x
+        for step_y in range(step_size):
+          dy = current_y + step_y
+          pix[dx, dy] = color
+
+  im.save("img_{}.png".format(seed), "PNG")
+
+
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser()
+  
+  parser.add_argument('-c','--num_colors', dest='num_colors', type=int, default=2, help='number of colors in avatar to generate')
+
+  parser.add_argument('-w','--width', dest='width', type=int, default=140, help='width of avatar to generate')
+
+  parser.add_argument('-p','--num_pixels', dest='steps', type=int, default=5, help='number of pixels of avatar')
+
+  args = parser.parse_args()
+  params = vars(args)
+  main(params)
