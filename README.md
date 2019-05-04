@@ -20,7 +20,7 @@ python3 run.py -w 100 -p 10
 
 ### Optional arguments
 
-| Arugment        | Default           | Description  |
+| Argument        | Default           | Description  |
 | ------------------------ |:-------------:| -----|
 | -h, --help    |  | show help  |
 | -c, --num_colors | 2      | number of colors in avatar to generate (excluding corporate color if any) |
@@ -28,7 +28,8 @@ python3 run.py -w 100 -p 10
 |-p, --num_pixels | 5 | number of pixels of avatar|
 |-cc, --corporate_colors | None |   color(s) to be included (in rgb tuple)
 |-n, --number |1| number of avatars to generate
-|-o, --output_dest | images| output directory where avatars
+|-o, --output_dest | images| output directory where avatars|
+|-e, --encircle |False|flag to determine if avatar generated will be in a square or circle shape|
 
 ## Run Test
 ```
@@ -37,4 +38,4 @@ python test.py
 
 ### Todo
 - [ ] Create simple api for this? 
-- [ ] Create circular avatars
+- [x] Create circular avatars

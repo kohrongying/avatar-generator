@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageDraw
 import random 
 import math
 import time
@@ -50,6 +50,7 @@ def main(params):
   step_size = int(width / steps)
   num_colors = params['num_colors']
   num_to_generate = params['num_to_generate']
+  encircle = params['encircle']
 
   for i in range(num_to_generate):
     im = Image.new("RGB", (width, height))
@@ -76,7 +77,19 @@ def main(params):
             dy = current_y + step_y
             pix[dx, dy] = color
 
-    im.save("{}/img_{}_{}.png".format(output_dest, seed, i+1), "PNG")
+    if encircle:
+      padding = 35
+      circle_diameter = math.ceil((width**2 + height**2)**0.5) + padding
+      circle = Image.new('RGBA', (circle_diameter, circle_diameter))
+      draw = ImageDraw.Draw(circle)
+      draw.ellipse((0, 0, circle_diameter, circle_diameter), fill = 'black', outline ='black')
+
+      corner = int((circle_diameter - width) / 2)
+      circle.paste(im, (corner, corner))
+      circle.save("{}/img_{}_{}.png".format(output_dest, seed, i+1), "PNG")
+    else:
+      im.save("{}/img_{}_{}.png".format(output_dest, seed, i+1), "PNG")
+
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
@@ -92,6 +105,8 @@ if __name__ == "__main__":
   parser.add_argument('-n','--number', dest='num_to_generate', type=int, default=1, help='number of avatars to generate')
 
   parser.add_argument('-o','--output_dest', dest='output_dest', default='images', help='output directory where avatars will be created')
+
+  parser.add_argument('-e','--encircle', dest='encircle',  action='store_true', default=False, help='choose if avatar generated is circular')
 
   args = parser.parse_args()
   params = vars(args)
