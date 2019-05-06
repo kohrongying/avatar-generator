@@ -2,8 +2,10 @@
 - Generates random pixelated avatar images for you
 - Inspired by [this article](https://medium.freecodecamp.org/how-to-create-generative-art-in-less-than-100-lines-of-code-d37f379859f)
 
-![img1](img_1556964797.png)
-![img2](img_1556964802.png)
+![img1](img_1.png)
+![img2](img_2.png)
+![img3](img_3.png)
+![img4](img_4.png)
 
 ## Usage
 Compatible for python3
@@ -16,6 +18,7 @@ python3 run.py -w 100 -p 10
                -c 3 -cc '(255,0,0)' '(0,255,0)'
                -o avatars
                -n 10
+               -e 
 ```
 
 ### Optional arguments
