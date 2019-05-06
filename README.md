@@ -2,10 +2,10 @@
 - Generates random pixelated avatar images for you
 - Inspired by [this article](https://medium.freecodecamp.org/how-to-create-generative-art-in-less-than-100-lines-of-code-d37f379859f)
 
-![img1](img_1.png)
-![img2](img_2.png)
-![img3](img_3.png)
-![img4](img_4.png)
+![img1](img1.png)
+![img2](img2.png)
+![img3](img3.png)
+![img4](img4.png)
 
 ## Usage
 Compatible for python3
